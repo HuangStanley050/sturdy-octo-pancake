@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useState } from "react";
 
-import Section from '../UI/Section';
-import TaskForm from './TaskForm';
+import Section from "../UI/Section";
+import TaskForm from "./TaskForm";
 
 const NewTask = (props) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -11,29 +11,32 @@ const NewTask = (props) => {
     setIsLoading(true);
     setError(null);
     try {
-      const response = await fetch(
-        'https://react-http-6b4a6.firebaseio.com/tasks.json',
-        {
-          method: 'POST',
-          body: JSON.stringify({ text: taskText }),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error('Request failed!');
-      }
-
-      const data = await response.json();
-
-      const generatedId = data.name; // firebase-specific => "name" contains generated id
-      const createdTask = { id: generatedId, text: taskText };
+      // const response = await fetch(
+      //   'https://react-http-6b4a6.firebaseio.com/tasks.json',
+      //   {
+      //     method: 'POST',
+      //     body: JSON.stringify({ text: taskText }),
+      //     headers: {
+      //       'Content-Type': 'application/json',
+      //     },
+      //   }
+      // );
+      //
+      // if (!response.ok) {
+      //   throw new Error('Request failed!');
+      // }
+      //
+      // const data = await response.json();
+      //
+      // const generatedId = data.name; // firebase-specific => "name" contains generated id
+      const createdTask = {
+        id: Math.floor(Math.random() * 1000 + 1),
+        text: taskText,
+      };
 
       props.onAddTask(createdTask);
     } catch (err) {
-      setError(err.message || 'Something went wrong!');
+      setError(err.message || "Something went wrong!");
     }
     setIsLoading(false);
   };
